@@ -5,4 +5,9 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [],
+	variants: {
+		space: ['responsive', 'direction'],
+		margin: ['responsive', 'direction'],
+		padding: ['responsive', 'direction'],
+	},
 };

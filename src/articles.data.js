@@ -54,6 +54,110 @@ const articles = [
 			},
 		],
 	},
+	{
+		id: 3,
+		title: 'The Future of Renewable Energy',
+		author: 'John Doe',
+		date: 'December 31, 2024',
+		category: 'Science',
+		preview:
+			'Examining the latest developments in sustainable power generation and their potential impact on global energy markets. New breakthroughs promise to revolutionize how we power our world.',
+		featured: false,
+		pages: [
+			{
+				title: 'The Rise of Renewables',
+				content:
+					'Renewable energy sources are becoming increasingly important in our global energy mix. As technology improves and costs decrease, solar and wind power are becoming more competitive with traditional fossil fuels. This transition is reshaping our energy landscape.',
+			},
+			{
+				title: 'Technological Breakthroughs',
+				content:
+					'Solar and wind power have seen dramatic improvements in efficiency. New manufacturing techniques and materials are making renewable energy more accessible than ever before. These advances are driving down costs and increasing adoption worldwide.',
+			},
+			{
+				title: 'Storage Solutions',
+				content:
+					"Energy storage solutions are key to renewable energy adoption. Battery technology is advancing rapidly, making it possible to store and use renewable energy even when the sun isn't shining or the wind isn't blowing. This is solving one of the biggest challenges in renewable energy.",
+			},
+		],
+	},
+	{
+		id: 4,
+		title: 'The Future of Renewable Energy',
+		author: 'John Doe',
+		date: 'December 31, 2024',
+		category: 'Science',
+		preview:
+			'Examining the latest developments in sustainable power generation and their potential impact on global energy markets. New breakthroughs promise to revolutionize how we power our world.',
+		featured: false,
+		pages: [
+			{
+				title: 'The Rise of Renewables',
+				content:
+					'Renewable energy sources are becoming increasingly important in our global energy mix. As technology improves and costs decrease, solar and wind power are becoming more competitive with traditional fossil fuels. This transition is reshaping our energy landscape.',
+			},
+			{
+				title: 'Technological Breakthroughs',
+				content:
+					'Solar and wind power have seen dramatic improvements in efficiency. New manufacturing techniques and materials are making renewable energy more accessible than ever before. These advances are driving down costs and increasing adoption worldwide.',
+			},
+			{
+				title: 'Storage Solutions',
+				content:
+					"Energy storage solutions are key to renewable energy adoption. Battery technology is advancing rapidly, making it possible to store and use renewable energy even when the sun isn't shining or the wind isn't blowing. This is solving one of the biggest challenges in renewable energy.",
+			},
+		],
+	},
+	{
+		id: 5,
+		title: 'The Future of Renewable Energy',
+		author: 'John Doe',
+		date: 'December 31, 2024',
+		category: 'Science',
+		preview:
+			'Examining the latest developments in sustainable power generation and their potential impact on global energy markets. New breakthroughs promise to revolutionize how we power our world.',
+		featured: false,
+		pages: [
+			{
+				title: 'The Rise of Renewables',
+				content:
+					'Renewable energy sources are becoming increasingly important in our global energy mix. As technology improves and costs decrease, solar and wind power are becoming more competitive with traditional fossil fuels. This transition is reshaping our energy landscape.',
+			},
+			{
+				title: 'Technological Breakthroughs',
+				content:
+					'Solar and wind power have seen dramatic improvements in efficiency. New manufacturing techniques and materials are making renewable energy more accessible than ever before. These advances are driving down costs and increasing adoption worldwide.',
+			},
+			{
+				title: 'Storage Solutions',
+				content:
+					"Energy storage solutions are key to renewable energy adoption. Battery technology is advancing rapidly, making it possible to store and use renewable energy even when the sun isn't shining or the wind isn't blowing. This is solving one of the biggest challenges in renewable energy.",
+			},
+		],
+	},
+
+	{
+		id: 6,
+		title: 'مستقبل الطاقة المتجددة',
+		author: 'أحمد محمد',
+		date: '١ يناير ٢٠٢٥',
+		category: 'العلوم',
+		preview:
+			'دراسة أحدث التطورات في توليد الطاقة المستدامة وتأثيرها المحتمل على أسواق الطاقة العالمية.',
+		featured: false,
+		pages: [
+			{
+				title: 'تطور الطاقة المتجددة',
+				content:
+					'أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.',
+			},
+			{
+				title: 'تطور الطاقة المتجددة',
+				content:
+					'أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.أصبحت مصادر الطاقة المتجددة عنصراً متزايد الأهمية في مزيج الطاقة العالمي.',
+			},
+		],
+	},
 ];
 
 export default articles;
