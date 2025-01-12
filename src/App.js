@@ -30,7 +30,8 @@ const Reader = () => {
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
 	// This is a simple implementation. In a real app, you'd want to add proper authentication
-	const isAuthenticated = true; // Replace with actual auth check
+	const isAuthenticated =
+		process.env.NODE_ENV === 'production' ? false : true; // Replace with actual auth check
 
 	if (!isAuthenticated) {
 		return <Navigate to='/' replace />;

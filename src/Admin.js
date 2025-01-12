@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash, Save, X, Users, Book, Layout } from 'lucide-react';
+import {
+	Plus,
+	Edit,
+	Trash,
+	Save,
+	X,
+	Users,
+	Book,
+	Layout,
+	Download,
+} from 'lucide-react';
+
+import ArticlesData from './articles.data';
+import AuthorsData from './authors.data';
 
 const AdminDashboard = () => {
 	const [activeTab, setActiveTab] = useState('articles');
-	const [articles, setArticles] = useState([]);
-	const [authors, setAuthors] = useState([]);
+	const [articles, setArticles] = useState(ArticlesData);
+	const [authors, setAuthors] = useState(AuthorsData);
 	const [editingArticle, setEditingArticle] = useState(null);
 	const [editingAuthor, setEditingAuthor] = useState(null);
+	const [showJson, setShowJson] = useState(false);
 
 	// Article form state
 	const [articleForm, setArticleForm] = useState({
@@ -25,6 +39,38 @@ const AdminDashboard = () => {
 		bio: '',
 		email: '',
 	});
+
+	const generateJson = () => {
+		const data = {
+			articles: articles.map((article) => ({
+				...article,
+				pages: article.pages.map((page) => ({
+					title: page.title,
+					content: page.content,
+				})),
+			})),
+			authors: authors.map((author) => ({
+				id: author.id,
+				name: author.name,
+				email: author.email,
+				bio: author.bio,
+			})),
+		};
+		return JSON.stringify(data, null, 2);
+	};
+
+	const downloadJson = () => {
+		const jsonString = generateJson();
+		const blob = new Blob([jsonString], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = 'cms-data.json';
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
 
 	const handleArticleSubmit = (e) => {
 		e.preventDefault();
@@ -103,28 +149,55 @@ const AdminDashboard = () => {
 			</header>
 
 			<main className='max-w-7xl mx-auto px-4 py-6'>
-				<div className='flex space-x-4 mb-6'>
-					<button
-						onClick={() => setActiveTab('articles')}
-						className={`flex items-center px-4 py-2 rounded-lg ${
-							activeTab === 'articles'
-								? 'bg-blue-500 text-white'
-								: 'bg-white text-gray-700'
-						}`}>
-						<Book className='w-5 h-5 mr-2' />
-						Articles
-					</button>
-					<button
-						onClick={() => setActiveTab('authors')}
-						className={`flex items-center px-4 py-2 rounded-lg ${
-							activeTab === 'authors'
-								? 'bg-blue-500 text-white'
-								: 'bg-white text-gray-700'
-						}`}>
-						<Users className='w-5 h-5 mr-2' />
-						Authors
-					</button>
+				<div className='flex justify-between items-center mb-6'>
+					<div className='flex space-x-4'>
+						<button
+							onClick={() => setActiveTab('articles')}
+							className={`flex items-center px-4 py-2 rounded-lg ${
+								activeTab === 'articles'
+									? 'bg-blue-500 text-white'
+									: 'bg-white text-gray-700'
+							}`}>
+							<Book className='w-5 h-5 mr-2' />
+							Articles
+						</button>
+						<button
+							onClick={() => setActiveTab('authors')}
+							className={`flex items-center px-4 py-2 rounded-lg ${
+								activeTab === 'authors'
+									? 'bg-blue-500 text-white'
+									: 'bg-white text-gray-700'
+							}`}>
+							<Users className='w-5 h-5 mr-2' />
+							Authors
+						</button>
+					</div>
+					<div className='flex space-x-2'>
+						<button
+							onClick={() => setShowJson(!showJson)}
+							className='flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700'>
+							<Layout className='w-5 h-5 mr-2' />
+							{showJson ? 'Hide JSON' : 'Show JSON'}
+						</button>
+						<button
+							onClick={downloadJson}
+							className='flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700'>
+							<Download className='w-5 h-5 mr-2' />
+							Download JSON
+						</button>
+					</div>
 				</div>
+
+				{showJson && (
+					<div className='mb-6 bg-white rounded-lg shadow p-6'>
+						<h3 className='text-lg font-medium mb-4'>
+							JSON Preview
+						</h3>
+						<pre className='bg-gray-50 p-4 rounded-lg overflow-auto max-h-96'>
+							{generateJson()}
+						</pre>
+					</div>
+				)}
 
 				{activeTab === 'articles' ? (
 					<div className='bg-white rounded-lg shadow p-6'>
