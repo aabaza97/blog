@@ -5,12 +5,12 @@ const HomePage = ({ articles, onArticleSelect }) => {
 			<header className='bg-white border-b border-gray-200'>
 				<div className='max-w-6xl mx-auto py-8 px-6'>
 					<h1 className='text-6xl font-serif text-center font-bold mb-4'>
-						The Daily Reader
+						The Fellas Notes
 					</h1>
 					<div className='flex justify-center items-center text-gray-600'>
 						<div className='border-t border-b border-gray-400 py-2 px-4'>
 							<p className='text-sm'>
-								WEDNESDAY, JANUARY 1, 2025
+								Quality Seekers, Quality Writers
 							</p>
 						</div>
 					</div>
