@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Home } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 // Touch Handler Hook
 const useSwipe = (onSwipeLeft, onSwipeRight) => {
@@ -106,6 +107,146 @@ const ReaderPage = ({ article, onBack }) => {
 
 	const progress = ((currentPage + 1) / article.pages.length) * 100;
 
+	// Function to safely render HTML content
+	const createMarkup = (content) => {
+		return {
+			__html: DOMPurify.sanitize(content, {
+				ALLOWED_TAGS: [
+					'p',
+					'b',
+					'i',
+					'em',
+					'strong',
+					'a',
+					'h1',
+					'h2',
+					'h3',
+					'h4',
+					'h5',
+					'h6',
+					'ul',
+					'ol',
+					'li',
+					'blockquote',
+					'code',
+					'pre',
+					'br',
+					'div',
+					'span',
+					'sub',
+					'sup',
+					'strike',
+					'u',
+				],
+				ALLOWED_ATTR: [
+					'href',
+					'target',
+					'rel',
+					'style',
+					'class',
+					'data-*',
+					'id',
+				],
+				ALLOWED_STYLES: [
+					'text-align',
+					'color',
+					'background-color',
+					'font-size',
+					'font-family',
+					'margin',
+					'margin-left',
+					'margin-right',
+					'padding',
+					'text-indent',
+				],
+			}),
+		};
+	};
+
+	// Content processing for Quill
+	const processContent = (content) => {
+		// Sanitize the content first
+		const sanitizedContent = DOMPurify.sanitize(content, {
+			ALLOWED_TAGS: [
+				'p',
+				'b',
+				'i',
+				'em',
+				'strong',
+				'a',
+				'h1',
+				'h2',
+				'h3',
+				'h4',
+				'h5',
+				'h6',
+				'ul',
+				'ol',
+				'li',
+				'blockquote',
+				'code',
+				'pre',
+				'br',
+				'div',
+				'span',
+				'sub',
+				'sup',
+				'strike',
+				'u',
+			],
+			ALLOWED_ATTR: [
+				'href',
+				'target',
+				'rel',
+				'style',
+				'class',
+				'data-*',
+				'id',
+			],
+			ALLOWED_STYLES: [
+				'text-align',
+				'color',
+				'background-color',
+				'font-size',
+				'font-family',
+				'margin',
+				'margin-left',
+				'margin-right',
+				'padding',
+				'text-indent',
+			],
+		});
+
+		const div = document.createElement('div');
+		div.innerHTML = sanitizedContent;
+
+		// Find the first substantial paragraph
+		const firstP = Array.from(div.children).find((el) => {
+			const text = el.textContent.trim();
+			return (
+				text.length > 0 && (el.tagName === 'P' || el.tagName === 'DIV')
+			);
+		});
+
+		let firstParagraphText = '';
+		let remainingContent = '';
+
+		if (firstP) {
+			firstParagraphText = firstP.innerHTML;
+			firstP.remove();
+			remainingContent = div.innerHTML;
+		} else {
+			remainingContent = sanitizedContent;
+		}
+
+		return {
+			firstParagraph: firstParagraphText,
+			remainingContent: remainingContent,
+		};
+	};
+
+	const pageContent = processContent(article.pages[currentPage].content);
+
 	return (
 		<div
 			className='min-h-screen flex flex-col bg-gray-100'
@@ -134,14 +275,28 @@ const ReaderPage = ({ article, onBack }) => {
 						<div className='border-b-2 border-black mb-8'></div>
 					</header>
 					<div className='prose prose-xl max-w-none pb-24'>
-						<p
-							className={`text-gray-800 leading-relaxed font-serif first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.8] ${
-								isRTL
-									? 'first-letter:float-right first-letter:ml-3'
-									: 'first-letter:float-left first-letter:mr-3'
-							}`}>
-							{article.pages[currentPage].content}
-						</p>
+						{/* First paragraph with drop cap and preserved formatting */}
+						{pageContent.firstParagraph && (
+							<div
+								className={`text-gray-800 leading-relaxed font-serif ql-editor first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.8] ${
+									isRTL
+										? 'first-letter:float-right first-letter:ml-3'
+										: 'first-letter:float-left first-letter:mr-3'
+								}`}
+								dangerouslySetInnerHTML={createMarkup(
+									pageContent.firstParagraph
+								)}
+							/>
+						)}
+						{/* Remaining content with preserved formatting */}
+						{pageContent.remainingContent && (
+							<div
+								className='text-gray-800 leading-relaxed font-serif ql-editor'
+								dangerouslySetInnerHTML={createMarkup(
+									pageContent.remainingContent
+								)}
+							/>
+						)}
 					</div>
 				</div>
 			</div>
