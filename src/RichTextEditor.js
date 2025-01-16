@@ -1,76 +1,124 @@
-import React from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import { Bold, Italic, List, ListOrdered, Quote } from 'lucide-react';
+import React, { useEffect, useRef, forwardRef, useLayoutEffect } from 'react';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
-const MenuBar = ({ editor }) => {
-	if (!editor) {
-		return null;
+const Editor = forwardRef(
+	(
+		{
+			readOnly,
+			value,
+			onTextChange,
+			onSelectionChange,
+			height,
+			placeholder,
+		},
+		ref
+	) => {
+		const containerRef = useRef(null);
+		const onTextChangeRef = useRef(onTextChange);
+		const onSelectionChangeRef = useRef(onSelectionChange);
+		const valueRef = useRef(value);
+		const toolbarOptions = [
+			['bold', 'italic', 'underline', 'strike'],
+			['blockquote', 'code-block'],
+			[{ header: 1 }, { header: 2 }],
+			[{ list: 'ordered' }, { list: 'bullet' }],
+			[{ script: 'sub' }, { script: 'super' }],
+			[{ indent: '-1' }, { indent: '+1' }],
+			[{ direction: 'rtl' }],
+			[{ size: ['small', false, 'large', 'huge'] }],
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			[{ color: [] }, { background: [] }],
+			[{ font: [] }],
+			[{ align: [] }],
+			['clean'],
+			['link', 'image'],
+		];
+
+		useLayoutEffect(() => {
+			onTextChangeRef.current = onTextChange;
+			onSelectionChangeRef.current = onSelectionChange;
+			valueRef.current = value;
+		});
+
+		useEffect(() => {
+			ref.current?.enable(!readOnly);
+		}, [ref, readOnly]);
+
+		useEffect(() => {
+			const container = containerRef.current;
+			const editorContainer = container.appendChild(
+				container.ownerDocument.createElement('div')
+			);
+
+			// Set the height on the editor container
+			editorContainer.style.height = height || '300px';
+
+			const quill = new Quill(editorContainer, {
+				modules: {
+					toolbar: toolbarOptions,
+				},
+				placeholder: placeholder || 'Write something...',
+				theme: 'snow',
+			});
+
+			ref.current = quill;
+
+			// Set initial content
+			if (valueRef.current) {
+				quill.root.innerHTML = valueRef.current;
+			}
+
+			quill.on(Quill.events.TEXT_CHANGE, (delta, oldContents, source) => {
+				if (source === 'user') {
+					const html = quill.root.innerHTML;
+					onTextChangeRef.current?.(html);
+				}
+			});
+
+			quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
+				onSelectionChangeRef.current?.(...args);
+			});
+
+			return () => {
+				ref.current = null;
+				container.innerHTML = '';
+			};
+		}, [ref]);
+
+		// Handle updates from parent
+		useEffect(() => {
+			console.log('did trigger with value ', value);
+			if (
+				ref.current &&
+				value !== undefined &&
+				value !== ref.current.root.innerHTML
+			) {
+				ref.current.root.innerHTML = value;
+			}
+		}, [value]);
+
+		return <div ref={containerRef} className='quill-container'></div>;
 	}
+);
+
+const QuillEditor = ({
+	value,
+	onChange,
+	placeholder = 'Write something...',
+}) => {
+	const quillRef = useRef(null);
 
 	return (
-		<div className='border-b p-2 mb-2 flex gap-2'>
-			<button
-				onClick={() => editor.chain().focus().toggleBold().run()}
-				className={`p-1 rounded ${
-					editor.isActive('bold') ? 'bg-gray-200' : ''
-				}`}>
-				<Bold className='w-5 h-5' />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleItalic().run()}
-				className={`p-1 rounded ${
-					editor.isActive('italic') ? 'bg-gray-200' : ''
-				}`}>
-				<Italic className='w-5 h-5' />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleBulletList().run()}
-				className={`p-1 rounded ${
-					editor.isActive('bulletList') ? 'bg-gray-200' : ''
-				}`}>
-				<List className='w-5 h-5' />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleOrderedList().run()}
-				className={`p-1 rounded ${
-					editor.isActive('orderedList') ? 'bg-gray-200' : ''
-				}`}>
-				<ListOrdered className='w-5 h-5' />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleBlockquote().run()}
-				className={`p-1 rounded ${
-					editor.isActive('blockquote') ? 'bg-gray-200' : ''
-				}`}>
-				<Quote className='w-5 h-5' />
-			</button>
+		<div className='quill-editor-container'>
+			<Editor
+				value={value}
+				ref={quillRef}
+				onTextChange={onChange}
+				placeholder={placeholder}
+			/>
 		</div>
 	);
 };
 
-const RichTextEditor = ({ content, onChange, placeholder }) => {
-	const editor = useEditor({
-		extensions: [StarterKit],
-		content: content,
-		onUpdate: ({ editor }) => {
-			onChange(editor.getHTML());
-		},
-		editorProps: {
-			attributes: {
-				class: 'prose max-w-none focus:outline-none min-h-[200px]',
-			},
-		},
-	});
-
-	return (
-		<div className='border rounded-md'>
-			<MenuBar editor={editor} />
-			<div className='p-2'>
-				<EditorContent editor={editor} placeholder={placeholder} />
-			</div>
-		</div>
-	);
-};
-
-export default RichTextEditor;
+export default QuillEditor;
