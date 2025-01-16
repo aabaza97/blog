@@ -10,7 +10,7 @@ import {
 	Layout,
 	Download,
 } from 'lucide-react';
-
+import QuillEditor from './RichTextEditor';
 import ArticlesData from './articles.data';
 import AuthorsData from './authors.data';
 
@@ -133,6 +133,7 @@ const AdminDashboard = () => {
 	};
 
 	const updatePage = (index, field, value) => {
+		console.log(value);
 		const newPages = [...articleForm.pages];
 		newPages[index] = { ...newPages[index], [field]: value };
 		setArticleForm({ ...articleForm, pages: newPages });
@@ -360,7 +361,7 @@ const AdminDashboard = () => {
 												</button>
 											)}
 										</div>
-										<textarea
+										{/* <textarea
 											value={page.content}
 											onChange={(e) =>
 												updatePage(
@@ -372,6 +373,17 @@ const AdminDashboard = () => {
 											rows={6}
 											placeholder='Section Content'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+										/> */}
+										<QuillEditor
+											value={page.content}
+											onChange={(content) =>
+												updatePage(
+													index,
+													'content',
+													content
+												)
+											}
+											placeholder='Write your section content here...'
 										/>
 									</div>
 								))}
